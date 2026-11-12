@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="#222222">
 
     <TextView
+        android:id="@+id/txtEstado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Control RC - Barco ESP32"
-        android:textSize="22sp"
+        android:text="Estado: Desconectado"
+        android:textColor="#FF5555"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"/>
 
@@ -21,43 +24,49 @@
         android:text="Conectar Bluetooth"
         android:layout_marginBottom="32dp"/>
 
-    <TextView
+    <!-- Botón Adelante -->
+    <Button
+        android:id="@+id/btnAdelante"
+        android:layout_width="130dp"
+        android:layout_height="65dp"
+        android:text="ADELANTE (F)"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Fila central: Izquierda y Derecha -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Velocidad Motor DC (0 - 255)"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
 
-    <SeekBar
-        android:id="@+id/seekBarMotor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="255"
-        android:progress="0"
-        android:layout_marginBottom="40dp"/>
+        <Button
+            android:id="@+id/btnIzquierda"
+            android:layout_width="130dp"
+            android:layout_height="65dp"
+            android:text="IZQ (L)"
+            android:layout_marginRight="20dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Direccion Timon (70 - 110)"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/btnDerecha"
+            android:layout_width="130dp"
+            android:layout_height="65dp"
+            android:text="DER (R)" />
+    </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seekBarTimon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="40"
-        android:progress="18"
+    <!-- Botón Atrás -->
+    <Button
+        android:id="@+id/btnAtras"
+        android:layout_width="130dp"
+        android:layout_height="65dp"
+        android:text="ATRÁS (B)"
         android:layout_marginBottom="24dp"/>
 
-    <TextView
-        android:id="@+id/txtEstado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Estado: Desconectado"
-        android:textSize="14sp"
-        android:textColor="#FF0000"
-        android:layout_marginTop="16dp"/>
+    <!-- Botón de Emergencia / Detener -->
+    <Button
+        android:id="@+id/btnDetener"
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:text="DETENER (S)"
+        android:backgroundTint="#AA0000"/>
 
 </LinearLayout>
