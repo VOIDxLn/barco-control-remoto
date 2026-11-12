@@ -5,8 +5,6 @@ import android.bluetooth.*
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
@@ -63,31 +61,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Configuración de botones con feedback visual (cambio de color al presionar)
-        configurarBotonControl(btnAdelante, "F", "S")
-        configurarBotonControl(btnAtras, "B", "S")
-        configurarBotonControl(btnIzquierda, "L", "C")
-        configurarBotonControl(btnDerecha, "R", "C")
+        // --- CONTROLES INDEPENDIENTES CON PREFIJOS ---
 
+        // Motor DC: Adelante ("MF") y Atrás ("MB")
+        configurarBotonMotor(btnAdelante, "MF")
+        configurarBotonMotor(btnAtras, "MB")
+
+        // Servomotor / Timón: Izquierda ("TL") y Derecha ("TR") -> Se centran ("TC") al soltar
+        configurarBotonTimon(btnIzquierda, "TL", "TC")
+        configurarBotonTimon(btnDerecha, "TR", "TC")
+
+        // Botón Detener general (Detiene motor y centra timón)
         btnDetener.setOnClickListener {
-            enviarComando("S")
-            enviarComando("C")
+            enviarComando("MS")
+            enviarComando("TC")
+            Toast.makeText(this, "Motor detenido y timón centrado", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun configurarBotonControl(boton: Button, comandoPresionar: String, comandoSoltar: String) {
-        boton.setOnTouchListener { v, event ->
+    private fun configurarBotonMotor(boton: Button, comando: String) {
+        boton.setOnClickListener {
+            enviarComando(comando)
+        }
+    }
+
+    private fun configurarBotonTimon(boton: Button, comandoPresionar: String, comandoSoltar: String) {
+        boton.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    // Feedback visual: Cambia el botón a verde oscuro al presionarlo
-                    v.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#2E7D32"))
                     enviarComando(comandoPresionar)
                     true
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    // Restaura el color original del botón al soltarlo
-                    v.backgroundTintList = null
-                    enviarComando(comandoSoltar)
+                    enviarComando(comandoSoltar) // Centra el timón al soltar el botón lateral
                     true
                 }
                 else -> false
@@ -144,7 +150,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // Método para limpiar la caché interna de Android y evitar fallos de servicios fantasma
     private fun refreshGattCache(gatt: BluetoothGatt): Boolean {
         try {
             val localMethod = gatt.javaClass.getMethod("refresh")
@@ -165,7 +170,6 @@ class MainActivity : AppCompatActivity() {
 
                 android.os.Handler(mainLooper).postDelayed({
                     if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                        // Limpiamos caché y descubrimos servicios de manera limpia
                         if (gatt != null) {
                             refreshGattCache(gatt)
                         }

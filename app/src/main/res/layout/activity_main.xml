@@ -2,71 +2,128 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="center"
     android:padding="16dp"
-    android:background="#222222">
+    android:background="#1E1E1E">
 
-    <TextView
-        android:id="@+id/txtEstado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Estado: Desconectado"
-        android:textColor="#FF5555"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"/>
-
-    <Button
-        android:id="@+id/btnConectar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Conectar Bluetooth"
-        android:layout_marginBottom="32dp"/>
-
-    <!-- Botón Adelante -->
-    <Button
-        android:id="@+id/btnAdelante"
-        android:layout_width="130dp"
-        android:layout_height="65dp"
-        android:text="ADELANTE (F)"
-        android:layout_marginBottom="12dp"/>
-
-    <!-- Fila central: Izquierda y Derecha -->
+    <!-- SECCIÓN IZQUIERDA: Control de Motor (Adelante / Atrás) -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnAdelante"
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:text="▲"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_redondeado"
+            android:stateListAnimator="@null"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnAtras"
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:text="▼"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_redondeado"
+            android:stateListAnimator="@null"/>
+    </LinearLayout>
+
+    <!-- SECCIÓN CENTRAL: Conectar/Estado arriba, Detener abajo (Distribución en los extremos) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.2"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|top"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <!-- Contenedor superior (Conectar + Estado) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnConectar"
+                android:layout_width="140dp"
+                android:layout_height="42dp"
+                android:text="Conectar"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:background="@drawable/btn_redondeado"
+                android:stateListAnimator="@null"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/txtEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado: Desconectado"
+                android:textColor="#FF5555"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Espaciador flexible que empuja el botón de detener hacia el borde inferior -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- Botón Detener en el borde inferior -->
+        <Button
+            android:id="@+id/btnDetener"
+            android:layout_width="140dp"
+            android:layout_height="42dp"
+            android:text="DETENER"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="@drawable/btn_redondeado"
+            android:backgroundTint="#B71C1C"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
+
+    <!-- SECCIÓN DERECHA: Control de Timón (Izquierda / Derecha) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:layout_marginBottom="12dp">
+        android:gravity="center">
 
         <Button
             android:id="@+id/btnIzquierda"
-            android:layout_width="130dp"
-            android:layout_height="65dp"
-            android:text="IZQ (L)"
-            android:layout_marginRight="20dp"/>
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:text="◄"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_redondeado"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="16dp"/>
 
         <Button
             android:id="@+id/btnDerecha"
-            android:layout_width="130dp"
-            android:layout_height="65dp"
-            android:text="DER (R)" />
+            android:layout_width="85dp"
+            android:layout_height="75dp"
+            android:text="►"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_redondeado"
+            android:stateListAnimator="@null"/>
     </LinearLayout>
-
-    <!-- Botón Atrás -->
-    <Button
-        android:id="@+id/btnAtras"
-        android:layout_width="130dp"
-        android:layout_height="65dp"
-        android:text="ATRÁS (B)"
-        android:layout_marginBottom="24dp"/>
-
-    <!-- Botón de Emergencia / Detener -->
-    <Button
-        android:id="@+id/btnDetener"
-        android:layout_width="160dp"
-        android:layout_height="55dp"
-        android:text="DETENER (S)"
-        android:backgroundTint="#AA0000"/>
 
 </LinearLayout>
